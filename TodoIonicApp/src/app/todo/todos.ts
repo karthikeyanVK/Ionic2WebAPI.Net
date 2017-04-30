@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { addtodoPage } from "./add/addtodo";
 import { TodoService } from './todo.service'
 import { Observable } from 'rxjs/Observable';
-import {Todo} from './todo'
+import { Todo } from './todo'
 @Component({
   templateUrl: 'todos.html',
   providers: [TodoService]
@@ -11,7 +11,7 @@ import {Todo} from './todo'
 export class todoListPage {
   public todoList: Array<Todo>;
 
-  constructor(private nav: NavController, private todoService: TodoService) {
+  constructor(private nav: NavController, private todoService: TodoService, private modalCtrl: ModalController) {
   }
 
   ngOnInit() {
@@ -21,16 +21,20 @@ export class todoListPage {
   }
 
   delete(taskId: string) {
-  this.todoService.delTask(taskId).subscribe(res => {
+    this.todoService.delTask(taskId).subscribe(res => {
+      this.ngOnInit();
       console.log(res);
     });
   }
 
   add() {
-    this.nav.push(addtodoPage);
-    this.todoService.getTodoList().subscribe(todos => {
-      this.todoList = todos
+    let modal = this.modalCtrl.create(addtodoPage);
+    modal.onDidDismiss((data) => {
+      this.todoList = data
     });
+
+    modal.present();
+
   }
 
 }

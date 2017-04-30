@@ -27,11 +27,13 @@ export class TodoService {
         return this.http.post(todoListUrl, body, options).map(this.extractData).catch(this.handleError);
     }
     delTask(todoId: string): any {
-        var todoListUrl = this.todoServiceUrl + "api/Todo";
-
+        var todoListUrl = this.todoServiceUrl + "api/Todo/deletetask";
+        let body = JSON.stringify({
+            "TaskId": todoId
+        });
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers, body: todoId });
-        return this.http.delete(todoListUrl, options).map(this.extractData).catch(this.handleError);
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(todoListUrl, body,options).map(this.extractData).catch(this.handleError);
     }
 
     private extractData(res: Response) {
