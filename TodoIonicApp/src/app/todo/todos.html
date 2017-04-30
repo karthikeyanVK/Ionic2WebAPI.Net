@@ -11,10 +11,10 @@
     <ion-list>
         <ion-item-sliding *ngFor="let todo of todoList; let i = index">
             <ion-item>
-                <h2>{{ todo }}</h2>
+                <h2>{{ todo.TaskName }}</h2>
             </ion-item>
             <ion-item-options>
-                <button danger (click)="delete(i)">
+                <button danger (click)="delete(todo.TaskId)">
                     <ion-icon name="trash"></ion-icon>
                     Delete
                 </button>
